@@ -16,11 +16,11 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{width:100%;height:100%;overflow:hidden;font-family:'Quicksand',sans-serif;background:#FDF6FF;}
 :root{
-  --p4:#1DD1A1;--p4d:#0FAB80;--p4l:#E0FFF7;
-  --p5:#5F27CD;--p5d:#3D1A8A;--p5l:#EDE7FF;
-  --p2:#FF9F43;--p2d:#CC7A22;
-  --text:#2C2C54;--muted:#9B9BC0;
-  --radius:24px;--radius-sm:16px;
+--p4:#1DD1A1;--p4d:#0FAB80;--p4l:#E0FFF7;
+--p5:#5F27CD;--p5d:#3D1A8A;--p5l:#EDE7FF;
+--p2:#FF9F43;--p2d:#CC7A22;
+--text:#2C2C54;--muted:#9B9BC0;
+--radius:24px;--radius-sm:16px;
 }
 .screen{display:none;position:fixed;top:0;left:0;width:100%;height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 16px 40px;}
 .screen.active{display:flex;flex-direction:column;align-items:center;}
@@ -70,7 +70,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Quicksand',sans-se
 
 /* ===== EXERCISES ===== */
 #exercises{background:linear-gradient(160deg,#E6F0FF,#F0FFF9);}
-.session-top{width:100%;max-width:560px;text-align:center;margin-bottom:12px;}
+.session-top{width:100%;max-width:560px;text-align:center;margin-bottom:12px;position:relative;}
 .session-phase{font-family:'Baloo 2',cursive;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:var(--muted);margin-bottom:2px;}
 .session-title{font-family:'Baloo 2',cursive;font-size:28px;font-weight:800;color:var(--text);}
 .prog-wrap{width:100%;max-width:560px;background:#E8E0FF;border-radius:50px;height:14px;margin:10px 0;overflow:hidden;}
@@ -92,9 +92,12 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Quicksand',sans-se
 .btn-listo{background:linear-gradient(135deg,var(--p4),#26de81);color:white;border:none;padding:18px;border-radius:var(--radius-sm);font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;cursor:pointer;box-shadow:0 6px 0 var(--p4d);width:100%;transition:all 0.15s;}
 .btn-listo:active{transform:translateY(4px);box-shadow:0 2px 0 var(--p4d);}
 
+/* ===== BOTÓN VOLVER ATRÁS ===== */
+.btn-back-session{position:absolute;top:0;left:0;background:white;border:none;width:42px;height:42px;border-radius:50%;font-size:18px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.10);display:flex;align-items:center;justify-content:center;color:var(--text);flex-shrink:0;z-index:10;}
+
 /* ===== PHONEME ===== */
 #phoneme{background:linear-gradient(160deg,#FFF6F0,#F0E6FF);}
-.ph-top{width:100%;max-width:560px;text-align:center;margin-bottom:10px;}
+.ph-top{width:100%;max-width:560px;text-align:center;margin-bottom:10px;position:relative;}
 .ph-level-tag{display:inline-block;padding:6px 18px;border-radius:50px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;}
 .ph-nav{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:8px 0;}
 .ph-nav-btn{min-width:44px;height:44px;padding:0 10px;border-radius:50px;border:2.5px solid #E0D0FF;background:white;font-family:'Baloo 2',cursive;font-size:15px;font-weight:700;color:var(--p5);cursor:pointer;transition:all 0.2s;}
@@ -117,6 +120,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Quicksand',sans-se
 .btn-replay:active{transform:translateY(3px);box-shadow:0 1px 0 #CC7A22;}
 .btn-green{width:100%;margin-top:12px;background:linear-gradient(135deg,#1DD1A1,#26de81);color:white;border:none;padding:20px;border-radius:16px;font-family:'Baloo 2',cursive;font-size:24px;font-weight:900;cursor:pointer;box-shadow:0 6px 0 #0FAB80;transition:all 0.15s;letter-spacing:1px;}
 .btn-green:active{transform:translateY(4px);box-shadow:0 2px 0 #0FAB80;}
+.btn-next{flex:1;background:linear-gradient(135deg,#5F27CD,#8B5CF6);color:white;border:none;padding:20px 10px;border-radius:16px;font-family:'Baloo 2',cursive;font-size:20px;font-weight:900;cursor:pointer;box-shadow:0 6px 0 var(--p5d);transition:all 0.15s;}
+.btn-next:active{transform:translateY(4px);box-shadow:0 2px 0 var(--p5d);}
 .attempts-dots{display:flex;gap:8px;justify-content:center;margin-top:14px;}
 .adot{width:18px;height:18px;border-radius:50%;background:#EEE;transition:all 0.3s;}
 .adot.good{background:var(--p4);transform:scale(1.2);}
@@ -187,6 +192,7 @@ canvas#confetti{position:fixed;top:0;left:0;pointer-events:none;z-index:0;}
 </style>
 </head>
 <body>
+
 <div class="home-deco" id="bubbles"></div>
 
 <!-- TRANSITION OVERLAY -->
@@ -244,6 +250,8 @@ canvas#confetti{position:fixed;top:0;left:0;pointer-events:none;z-index:0;}
 <!-- EXERCISES -->
 <div id="exercises" class="screen">
   <div class="session-top">
+    <!-- FIX: Botón volver atrás en ejercicios -->
+    <button class="btn-back-session" onclick="goHome()" title="Volver al inicio">←</button>
     <div class="session-phase">Calentamiento</div>
     <div class="session-title" id="exTitle">Calentamos la boca 🐸</div>
   </div>
@@ -275,12 +283,13 @@ canvas#confetti{position:fixed;top:0;left:0;pointer-events:none;z-index:0;}
 <!-- PHONEME -->
 <div id="phoneme" class="screen">
   <div class="ph-top">
+    <!-- FIX: Botón volver atrás en fonemas -->
+    <button class="btn-back-session" onclick="goHome()" title="Volver al inicio">←</button>
     <div class="ph-level-tag" id="phLevelTag">Nivel 1 · La P</div>
     <div class="prog-wrap"><div class="prog-fill" id="phProg" style="width:0%"></div></div>
     <div class="ph-nav" id="phNav"></div>
   </div>
   <div class="ph-card">
-    <!-- Fonema + imagen -->
     <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;">
       <div style="flex:1;">
         <div class="ph-sublabel" id="phSublabel">pato</div>
@@ -288,20 +297,20 @@ canvas#confetti{position:fixed;top:0;left:0;pointer-events:none;z-index:0;}
       </div>
       <div id="wordImage" style="width:110px;height:110px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:16px;overflow:hidden;background:#F8F0FF;"></div>
     </div>
-    <!-- Vídeo -->
     <div class="video-area" id="videoArea">
       <div class="video-placeholder">
         <div style="font-size:48px;">🎬</div>
         <p>Vídeo no disponible</p>
       </div>
     </div>
-    <!-- Controles vídeo -->
     <div class="vid-controls">
       <button class="btn-play" id="btnPlay" onclick="togglePlay()">▶ Play</button>
       <button class="btn-replay" onclick="replayVideo()">🔁 Repetir</button>
     </div>
-    <!-- Botón verde único -->
-    <button class="btn-green" onclick="markGood()">✅ ¡Lo he dicho!</button>
+    <div style="display:flex;gap:10px;margin-top:12px;">
+      <button class="btn-green" style="flex:2;" onclick="markGood()">✅ ¡Lo he dicho!</button>
+      <button class="btn-next" onclick="nextClip()">➡️ Siguiente</button>
+    </div>
     <div class="attempts-dots" id="attemptsDots"></div>
   </div>
 </div>
@@ -326,7 +335,6 @@ canvas#confetti{position:fixed;top:0;left:0;pointer-events:none;z-index:0;}
       <button class="btn-back" onclick="goHome()">←</button>
       <div class="admin-title">⚙️ Panel de mamá y papá</div>
     </div>
-
     <div class="admin-section">
       <div class="admin-section-title">👤 Nombre del niño</div>
       <div class="name-row">
@@ -334,12 +342,10 @@ canvas#confetti{position:fixed;top:0;left:0;pointer-events:none;z-index:0;}
         <button class="btn-save-name" onclick="saveNameAdmin()">Guardar</button>
       </div>
     </div>
-
     <div class="admin-section">
       <div class="admin-section-title">🔓 Niveles</div>
       <div id="levelGrid"></div>
     </div>
-
     <div class="admin-section">
       <div class="admin-section-title">📅 Estadísticas</div>
       <div class="stats-admin">
@@ -353,7 +359,7 @@ canvas#confetti{position:fixed;top:0;left:0;pointer-events:none;z-index:0;}
 
 <script>
 // ============================================================
-// REPO BASE URL — cambia esto por tu usuario de GitHub
+// REPO BASE URL
 // ============================================================
 const REPO_BASE = 'https://Clauirejor.github.io/fonemas-episodio-1';
 const VIDEO_BASE = `${REPO_BASE}/videos`;
@@ -408,17 +414,26 @@ function checkExercisesToday(){const today=new Date().toDateString();if(S.lastDa
 // NAVEGACIÓN
 // ============================================================
 function goScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
-function goHome(){clearInterval(timerInt);const emojis=['🌟','⭐','🦋','🌈','🎈','🐬','🦄','🌸'];document.getElementById('homeEmoji').textContent=emojis[Math.floor(Math.random()*emojis.length)];renderHome();goScreen('home');}
+
+function goHome(){
+  clearInterval(timerInt);
+  const emojis=['🌟','⭐','🦋','🌈','🎈','🐬','🦄','🌸'];
+  document.getElementById('homeEmoji').textContent=emojis[Math.floor(Math.random()*emojis.length)];
+  renderHome();
+  goScreen('home');
+}
+
 function goAdmin(){renderAdmin();goScreen('admin');}
 
 // ============================================================
-// WELCOME — nombre del niño
+// WELCOME
 // ============================================================
 function saveName(){
   const name=document.getElementById('nameInput').value.trim();
   if(!name){document.getElementById('nameInput').focus();return;}
   S.childName=name;saveState();goHome();
 }
+
 function saveNameAdmin(){
   const name=document.getElementById('nameEditInput').value.trim();
   if(!name)return;
@@ -439,13 +454,18 @@ function renderHome(){
   document.getElementById('exBadge').textContent=done?'✅ Hechos':'Calentar';
   const btnF=document.getElementById('btnFonemas');
   done?btnF.classList.remove('bloqueado'):btnF.classList.add('bloqueado');
+
   const path=document.getElementById('levelPath');path.innerHTML='';
   LEVELS.forEach((lv,i)=>{
-    const isUnlocked=S.unlockedLevels.includes(lv.id),isCurrent=lv.id===S.currentLevel,isDone=isUnlocked&&lv.id<S.currentLevel;
-    const node=document.createElement('div');node.className=`lp-node ${isDone?'done':isCurrent?'active':'locked'}`;
+    const isUnlocked=S.unlockedLevels.includes(lv.id);
+    const isCurrent=lv.id===S.currentLevel;
+    const isDone=isUnlocked&&lv.id<S.currentLevel;
+    const node=document.createElement('div');
+    node.className=`lp-node ${isDone?'done':isCurrent?'active':'locked'}`;
     node.style.background=isDone?'#1DD1A1':isCurrent?lv.color:'#DDD';
     node.style.boxShadow=`0 5px 0 ${isDone?'#0FAB80':isCurrent?lv.colorD:'#BBB'}`;
-    node.innerHTML=isDone?'✓':isCurrent?lv.id:'🔒';path.appendChild(node);
+    node.innerHTML=isDone?'✓':isCurrent?lv.id:'🔒';
+    path.appendChild(node);
     if(i<LEVELS.length-1){const a=document.createElement('div');a.className='lp-arrow';a.textContent='→';path.appendChild(a);}
   });
 }
@@ -458,19 +478,31 @@ let goodTotal=0,attemptTotal=0,currentLevel=null,sessionClips=[],sessionClipIdx=
 
 function startEjercicios(){
   const today=new Date().toDateString();
-  if(S.lastDate!==today){const yesterday=new Date(Date.now()-86400000).toDateString();S.streak=(S.lastDate===yesterday)?(S.streak||0)+1:1;S.lastDate=today;S.sessions=(S.sessions||0)+1;}
-  saveState();sessionExIdx=0;
+  if(S.lastDate!==today){
+    const yesterday=new Date(Date.now()-86400000).toDateString();
+    S.streak=(S.lastDate===yesterday)?(S.streak||0)+1:1;
+    S.lastDate=today;
+    S.sessions=(S.sessions||0)+1;
+  }
+  saveState();
+  sessionExIdx=0;
   const dayIdx=(S.sessions-1)%EXERCISES_DB.length;
   sessionExercises=[...EXERCISES_DB[dayIdx]].sort(()=>Math.random()-0.5);
-  renderExercise();goScreen('exercises');
+  renderExercise();
+  goScreen('exercises');
 }
 
 function startFonemas(){
-  if(!checkExercisesToday()){alert('¡Primero hay que calentar la boca! 🐸\nHaz los ejercicios antes de practicar los fonemas.');return;}
+  if(!checkExercisesToday()){
+    alert('¡Primero hay que calentar la boca! 🐸\nHaz los ejercicios antes de practicar los fonemas.');
+    return;
+  }
   goodTotal=0;attemptTotal=0;
   currentLevel=LEVELS.find(l=>l.id===S.currentLevel)||LEVELS[0];
-  sessionClips=[...currentLevel.clips];sessionClipIdx=0;
-  renderPhoneme();goScreen('phoneme');
+  sessionClips=[...currentLevel.clips];
+  sessionClipIdx=0;
+  renderPhoneme();
+  goScreen('phoneme');
 }
 
 // ============================================================
@@ -480,51 +512,93 @@ function renderExercise(){
   const ex=sessionExercises[sessionExIdx],total=sessionExercises.length;
   document.getElementById('exTitle').textContent=sessionExIdx===0?'Calentamos la boca 🐸':`Ejercicio ${sessionExIdx+1}`;
   document.getElementById('exProg').style.width=`${(sessionExIdx/total)*100}%`;
-  document.getElementById('exEmoji').textContent=ex.emoji;document.getElementById('exName').textContent=ex.name;
-  document.getElementById('exDesc').textContent=ex.desc;document.getElementById('exReps').textContent=ex.reps;
-  document.getElementById('exInstruct').textContent=ex.instruct;startTimer(ex.dur);
+  document.getElementById('exEmoji').textContent=ex.emoji;
+  document.getElementById('exName').textContent=ex.name;
+  document.getElementById('exDesc').textContent=ex.desc;
+  document.getElementById('exReps').textContent=ex.reps;
+  document.getElementById('exInstruct').textContent=ex.instruct;
+  startTimer(ex.dur);
 }
-function startTimer(secs){clearInterval(timerInt);timerTotal=secs;timerSecs=secs;const arc=document.getElementById('timerArc');function tick(){document.getElementById('timerNum').textContent=timerSecs;arc.style.strokeDashoffset=125.6*(1-timerSecs/timerTotal);if(timerSecs>0)timerSecs--;else clearInterval(timerInt);}tick();timerInt=setInterval(tick,1000);}
-function nextExercise(){clearInterval(timerInt);sessionExIdx++;if(sessionExIdx<sessionExercises.length){renderExercise();}else{S.exercisesDoneToday=true;saveState();goHome();}}
+
+function startTimer(secs){
+  clearInterval(timerInt);
+  timerTotal=secs;timerSecs=secs;
+  const arc=document.getElementById('timerArc');
+  function tick(){
+    document.getElementById('timerNum').textContent=timerSecs;
+    arc.style.strokeDashoffset=125.6*(1-timerSecs/timerTotal);
+    if(timerSecs>0)timerSecs--;else clearInterval(timerInt);
+  }
+  tick();timerInt=setInterval(tick,1000);
+}
+
+function nextExercise(){
+  clearInterval(timerInt);
+  sessionExIdx++;
+  if(sessionExIdx<sessionExercises.length){
+    renderExercise();
+  } else {
+    S.exercisesDoneToday=true;
+    saveState();
+    goHome();
+  }
+}
 
 // ============================================================
-// FONEMAS — vídeos e imágenes desde GitHub
+// FONEMAS — FIX: lógica de desbloqueo de niveles
 // ============================================================
+function unlockNextLevel(){
+  // Busca el nivel siguiente al actual y lo desbloquea
+  const currentIdx=LEVELS.findIndex(l=>l.id===S.currentLevel);
+  if(currentIdx>=0 && currentIdx<LEVELS.length-1){
+    const nextLevel=LEVELS[currentIdx+1];
+    if(!S.unlockedLevels.includes(nextLevel.id)){
+      S.unlockedLevels.push(nextLevel.id);
+      S.unlockedLevels.sort();
+    }
+    S.currentLevel=nextLevel.id;
+  }
+  saveState();
+}
+
 function renderPhoneme(){
   if(sessionClipIdx>=sessionClips.length){showCelebration();return;}
   const clip=sessionClips[sessionClipIdx],lv=currentLevel,total=sessionClips.length;
 
-  // Cabecera
   const tag=document.getElementById('phLevelTag');
-  tag.textContent=`${lv.name} · La ${lv.consonant}`;tag.style.background=lv.colorL;tag.style.color=lv.colorD;
+  tag.textContent=`${lv.name} · La ${lv.consonant}`;
+  tag.style.background=lv.colorL;tag.style.color=lv.colorD;
+
   document.getElementById('phProg').style.width=`${(sessionClipIdx/total)*100}%`;
-  document.getElementById('phBig').textContent=clip.label;document.getElementById('phBig').style.color=lv.color;
+  document.getElementById('phBig').textContent=clip.label;
+  document.getElementById('phBig').style.color=lv.color;
   document.getElementById('phSublabel').textContent=clip.isFrase?`"${clip.word}"`:clip.word;
 
-  // Imagen desde GitHub (o emoji fallback)
   const imgBox=document.getElementById('wordImage');
   if(!clip.isFrase){
     imgBox.innerHTML=`<img src="${IMAGE_BASE}/${clip.key}.png" alt="${clip.word}"
       style="width:110px;height:110px;object-fit:contain;"
-      onerror="this.parentNode.innerHTML='<div style=\'font-size:64px;line-height:110px;\'>${clip.em||''}</div>'">`;
+      onerror="this.parentNode.innerHTML='<div style=\\'font-size:64px;line-height:110px;\\'>${clip.em||''}</div>'">`;
   } else {
     imgBox.innerHTML='';
   }
 
-  // Nav
   const nav=document.getElementById('phNav');nav.innerHTML='';
   sessionClips.forEach((c,i)=>{
-    const b=document.createElement('button');b.className=`ph-nav-btn ${i<sessionClipIdx?'done':i===sessionClipIdx?'active':''}`;
-    b.textContent=c.label;b.onclick=()=>{sessionClipIdx=i;renderPhoneme();};nav.appendChild(b);
+    const b=document.createElement('button');
+    b.className=`ph-nav-btn ${i<sessionClipIdx?'done':i===sessionClipIdx?'active':''}`;
+    b.textContent=c.label;
+    b.onclick=()=>{sessionClipIdx=i;renderPhoneme();};
+    nav.appendChild(b);
   });
 
-  // Vídeo desde GitHub
   const va=document.getElementById('videoArea');
   const videoUrl=`${VIDEO_BASE}/${clip.key}.mp4`;
   va.innerHTML=`<video id="mainVideo" src="${videoUrl}" playsinline webkit-playsinline autoplay
     style="width:100%;border-radius:14px;display:block;" preload="auto"
     onerror="this.parentNode.innerHTML='<div class=video-placeholder><div style=font-size:48px>🎬</div><p>Vídeo no disponible</p></div>'">
   </video>`;
+
   const vid=document.getElementById('mainVideo');
   if(vid){
     vid.oncanplay=()=>{vid.play().catch(()=>{});};
@@ -533,7 +607,6 @@ function renderPhoneme(){
     vid.onpause=()=>{const b=document.getElementById('btnPlay');if(b)b.textContent='▶ Play';};
   }
 
-  // Reset progreso del clip
   if(!S.progress[clip.key])S.progress[clip.key]={good:0,attempts:[]};
   renderDots(clip.key);
 }
@@ -551,19 +624,41 @@ function renderDots(key){
   }
 }
 
+function nextClip(){
+  sessionClipIdx++;
+  if(sessionClipIdx>=sessionClips.length){
+    unlockNextLevel();
+    if(currentLevel.transition) showTransition();
+    else showCelebration();
+  } else {
+    renderPhoneme();
+  }
+}
+
 function markGood(){
   const clip=sessionClips[sessionClipIdx];
   if(!S.progress[clip.key])S.progress[clip.key]={good:0,attempts:[]};
   S.progress[clip.key].attempts.push('good');
   S.progress[clip.key].good++;
   goodTotal++;attemptTotal++;
-  saveState();renderDots(clip.key);
+  saveState();
+  renderDots(clip.key);
+
   const gc=S.progress[clip.key].attempts.filter(a=>a==='good').length;
   if(gc>=5){
     setTimeout(()=>{
       sessionClipIdx++;
-      if(sessionClipIdx>=sessionClips.length&&currentLevel.transition)showTransition();
-      else renderPhoneme();
+      if(sessionClipIdx>=sessionClips.length){
+        // FIX: desbloquear siguiente nivel ANTES de mostrar transición/celebración
+        unlockNextLevel();
+        if(currentLevel.transition){
+          showTransition();
+        } else {
+          showCelebration();
+        }
+      } else {
+        renderPhoneme();
+      }
     },600);
   } else {
     replayVideo();
@@ -576,17 +671,21 @@ function markGood(){
 function showTransition(){
   const trans=currentLevel.transition;
   if(!trans){showCelebration();return;}
+
   document.getElementById('transEmoji').textContent=trans.emoji;
   document.getElementById('transTitle').textContent='¡Nivel completado! 🎉';
   document.getElementById('transSub').textContent=`Ahora vamos con ${trans.toName}`;
+
   const vw=document.getElementById('transVideoWrap'),tv=document.getElementById('transVideo');
   const url=`${VIDEO_BASE}/${trans.key}.mp4`;
   tv.src=url;vw.style.display='block';
   tv.oncanplay=()=>tv.play().catch(()=>{});
   tv.onended=()=>setTimeout(finishTransition,800);
   tv.onerror=()=>{vw.style.display='none';};
+
   document.getElementById('transOverlay').classList.add('show');
 }
+
 function finishTransition(){
   document.getElementById('transOverlay').classList.remove('show');
   const tv=document.getElementById('transVideo');tv.pause();tv.src='';
@@ -607,19 +706,55 @@ function showCelebration(){
     [`¡Increíble! 🦋`,"Eres más valiente cada día"],
   ];
   const m=msgs[Math.floor(Math.random()*msgs.length)];
+
   document.getElementById('celebEmoji').textContent=pct>=80?'🏆':pct>=50?'⭐':'💪';
   document.getElementById('celebTitle').textContent=m[0];
   document.getElementById('celebMsg').textContent=m[1];
+
   const stars=document.getElementById('starsRow');stars.innerHTML='';
   const n=pct>=80?3:pct>=50?2:1;
-  for(let i=0;i<n;i++){const s=document.createElement('div');s.className='star-anim';s.textContent='⭐';s.style.animationDelay=`${i*0.2}s`;stars.appendChild(s);}
+  for(let i=0;i<n;i++){
+    const s=document.createElement('div');s.className='star-anim';s.textContent='⭐';
+    s.style.animationDelay=`${i*0.2}s`;stars.appendChild(s);
+  }
+
+  // Mostrar el siguiente nivel desbloqueado en la celebración
+  const nextLv=LEVELS.find(l=>l.id===S.currentLevel);
+  const nextMsg=nextLv?`¡Siguiente: ${nextLv.name} · La ${nextLv.consonant}! 🎯`:'';
+
   document.getElementById('statsGrid').innerHTML=`
     <div class="stat-box"><div class="stat-n">${sessionClips.length}</div><div class="stat-l">Sonidos</div></div>
     <div class="stat-box"><div class="stat-n">${pct}%</div><div class="stat-l">¡Lo logré!</div></div>
-    <div class="stat-box"><div class="stat-n">${S.sessions}</div><div class="stat-l">Sesiones</div></div>`;
-  goScreen('celebration');launchConfetti();
+    <div class="stat-box"><div class="stat-n">${S.sessions}</div><div class="stat-l">Sesiones</div></div>
+    ${nextMsg?`<div class="stat-box" style="grid-column:1/-1;background:var(--p5l);"><div style="font-size:15px;font-weight:700;color:var(--p5d);">${nextMsg}</div></div>`:''}`;
+
+  goScreen('celebration');
+  launchConfetti();
 }
-function launchConfetti(){const canvas=document.getElementById('confetti');canvas.width=window.innerWidth;canvas.height=window.innerHeight;const ctx=canvas.getContext('2d');const cols=['#FF6B6B','#FFD166','#1DD1A1','#5F27CD','#48DBFB','#FF9FF3','#FF9F43'];const pieces=Array.from({length:100},()=>({x:Math.random()*canvas.width,y:-20,vx:(Math.random()-0.5)*5,vy:2+Math.random()*4,color:cols[Math.floor(Math.random()*cols.length)],size:6+Math.random()*10,rot:Math.random()*360,vrot:(Math.random()-0.5)*10,alive:true}));let frame=0;function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);pieces.forEach(p=>{if(!p.alive)return;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);ctx.fillStyle=p.color;ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*0.6);ctx.restore();p.x+=p.vx;p.y+=p.vy;p.rot+=p.vrot;if(p.y>canvas.height+20)p.alive=false;});frame++;if(frame<250)requestAnimationFrame(draw);else ctx.clearRect(0,0,canvas.width,canvas.height);}draw();}
+
+function launchConfetti(){
+  const canvas=document.getElementById('confetti');
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  const ctx=canvas.getContext('2d');
+  const cols=['#FF6B6B','#FFD166','#1DD1A1','#5F27CD','#48DBFB','#FF9FF3','#FF9F43'];
+  const pieces=Array.from({length:100},()=>({x:Math.random()*canvas.width,y:-20,vx:(Math.random()-0.5)*5,vy:2+Math.random()*4,color:cols[Math.floor(Math.random()*cols.length)],size:6+Math.random()*10,rot:Math.random()*360,vrot:(Math.random()-0.5)*10,alive:true}));
+  let frame=0;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p=>{
+      if(!p.alive)return;
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);
+      ctx.fillStyle=p.color;ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*0.6);
+      ctx.restore();
+      p.x+=p.vx;p.y+=p.vy;p.rot+=p.vrot;
+      if(p.y>canvas.height+20)p.alive=false;
+    });
+    frame++;
+    if(frame<250)requestAnimationFrame(draw);
+    else ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+  draw();
+}
 
 // ============================================================
 // ADMIN
@@ -628,27 +763,42 @@ function renderAdmin(){
   document.getElementById('nameEditInput').value=S.childName||'';
   document.getElementById('adminSessions').textContent=S.sessions||0;
   document.getElementById('adminStreak').textContent=S.streak||0;
+
   const grid=document.getElementById('levelGrid');grid.innerHTML='';
   LEVELS.forEach(lv=>{
     const unlocked=S.unlockedLevels.includes(lv.id);
+    const isCurrent=lv.id===S.currentLevel;
     const row=document.createElement('div');
     row.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1.5px solid #F5F0FF;';
-    row.innerHTML=`<div><div style="font-weight:700;color:var(--text);font-size:15px;">${lv.emoji} ${lv.name}: La ${lv.consonant}</div><div style="font-size:12px;color:var(--muted);">${unlocked?'✅ Desbloqueado':'🔒 Bloqueado'}</div></div><button class="toggle-level ${unlocked?'on':'off'}" onclick="toggleLevel(${lv.id})">${unlocked?'Bloquear':'Desbloquear'}</button>`;
+    row.innerHTML=`<div><div style="font-weight:700;color:var(--text);font-size:15px;">${lv.emoji} ${lv.name}: La ${lv.consonant}${isCurrent?' 👈':''}</div><div style="font-size:12px;color:var(--muted);">${unlocked?'✅ Desbloqueado':'🔒 Bloqueado'}</div></div><button class="toggle-level ${unlocked?'on':'off'}" onclick="toggleLevel(${lv.id})">${unlocked?'Bloquear':'Desbloquear'}</button>`;
     grid.appendChild(row);
   });
 }
-function toggleLevel(id){const idx=S.unlockedLevels.indexOf(id);if(idx>=0){if(S.unlockedLevels.length>1)S.unlockedLevels.splice(idx,1);}else{S.unlockedLevels.push(id);S.unlockedLevels.sort();}if(!S.unlockedLevels.includes(S.currentLevel))S.currentLevel=S.unlockedLevels[0];saveState();renderAdmin();}
-function confirmReset(){if(confirm(`¿Seguro que quieres borrar todo el progreso de ${S.childName||'el niño'}?`)){S={...S,sessions:0,streak:0,currentLevel:1,unlockedLevels:[1],progress:{},lastDate:null,exercisesDoneToday:false};saveState();renderAdmin();renderHome();}}
+
+function toggleLevel(id){
+  const idx=S.unlockedLevels.indexOf(id);
+  if(idx>=0){if(S.unlockedLevels.length>1)S.unlockedLevels.splice(idx,1);}
+  else{S.unlockedLevels.push(id);S.unlockedLevels.sort();}
+  if(!S.unlockedLevels.includes(S.currentLevel))S.currentLevel=S.unlockedLevels[0];
+  saveState();renderAdmin();
+}
+
+function confirmReset(){
+  if(confirm(`¿Seguro que quieres borrar todo el progreso de ${S.childName||'el niño'}?`)){
+    S={...S,sessions:0,streak:0,currentLevel:1,unlockedLevels:[1],progress:{},lastDate:null,exercisesDoneToday:false};
+    saveState();renderAdmin();renderHome();
+  }
+}
 
 // ============================================================
 // ARRANQUE
 // ============================================================
 function init(){
-  // Si ya tiene nombre guardado → home directamente
   if(S.childName){renderHome();goScreen('home');}
   else{goScreen('welcome');}
   if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
 }
+
 init();
 </script>
 </body>
